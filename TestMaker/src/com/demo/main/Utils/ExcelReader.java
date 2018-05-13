@@ -29,7 +29,11 @@ public class ExcelReader {
 	XSSFSheet sheet;
 
 	public ExcelReader() throws IOException{
-		InputStream inp = new FileInputStream("D:\\testQ.xlsx");
+		this("D:\\testQ.xlsx");
+        
+	}
+	public ExcelReader(String path) throws IOException{
+		InputStream inp = new FileInputStream(path);
 		try {
 			wb = new XSSFWorkbook(inp);
 			sheet = wb.getSheetAt(0);
@@ -37,19 +41,13 @@ public class ExcelReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
 	}
 	public void test(){
 		int totalRows=sheet.getLastRowNum()+1;
 		int startAt=hasFileTitleLine()?1:0;
 		for(int i=startAt;i<totalRows;i++){
 			XSSFRow row=sheet.getRow(i);
-			try {
-				System.out.println(createQuestion(row));
-			} catch (NoCorrectAnswerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
+			System.out.println(createQuestion(row));		
 		}
 	}
 	private boolean isCellBold(XSSFCell cell){
@@ -57,7 +55,19 @@ public class ExcelReader {
 		return cell.getCellStyle().getFont().getBold();
 		
 	}
-	public MultipleChoice createQuestion(XSSFRow row) throws NoCorrectAnswerException{
+	public List<MultipleChoice> getQuestions(){
+		List<MultipleChoice> questions = new ArrayList<MultipleChoice>();
+		
+		int totalRows=sheet.getLastRowNum()+1;
+		int startAt=hasFileTitleLine()?1:0;
+		for(int i=startAt;i<totalRows;i++){
+			XSSFRow row=sheet.getRow(i);
+			questions.add(createQuestion(row));		
+		}
+		
+		return questions;
+	}
+	private MultipleChoice createQuestion(XSSFRow row) {
 		MultipleChoice question= new MultipleChoice();
 		List<Answer> answers = new ArrayList<Answer>();
 		for(int i=0;i<row.getLastCellNum();i++){
@@ -74,16 +84,12 @@ public class ExcelReader {
 				answers.add(answer);
 			}
 		}
-		int totalCorrectAnswers=0;
-		for(Answer a:answers){
-			if(a.isCorrect()){
-				totalCorrectAnswers++;
-			}
+		try {
+			question.setAnswers(answers);
+		} catch (NoCorrectAnswerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if(totalCorrectAnswers==0){
-			throw new NoCorrectAnswerException(question);
-		}
-		question.setAnswers(answers);
 		
 		return question;
 		
