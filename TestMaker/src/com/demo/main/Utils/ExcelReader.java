@@ -21,7 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.demo.main.model.Answer;
-import com.demo.main.model.QuestionMC;
+import com.demo.main.model.Question;
 
 public class ExcelReader {
 	XSSFWorkbook wb;
@@ -43,7 +43,12 @@ public class ExcelReader {
 		int startAt=hasFileTitleLine()?1:0;
 		for(int i=startAt;i<totalRows;i++){
 			XSSFRow row=sheet.getRow(i);
-			System.out.println(createQuestion(row));		
+			try {
+				System.out.println(createQuestion(row));
+			} catch (NoCorrectAnswerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
 		}
 	}
 	private boolean isCellBold(XSSFCell cell){
@@ -51,8 +56,8 @@ public class ExcelReader {
 		return cell.getCellStyle().getFont().getBold();
 		
 	}
-	public QuestionMC createQuestion(XSSFRow row){
-		QuestionMC question= new QuestionMC();
+	public Question createQuestion(XSSFRow row) throws NoCorrectAnswerException{
+		Question question= new Question();
 		List<Answer> answers = new ArrayList<Answer>();
 		for(int i=0;i<row.getLastCellNum();i++){
 			XSSFCell cell=row.getCell(i);
@@ -67,6 +72,15 @@ public class ExcelReader {
 				
 				answers.add(answer);
 			}
+		}
+		int totalCorrectAnswers=0;
+		for(Answer a:answers){
+			if(a.isCorrect()){
+				totalCorrectAnswers++;
+			}
+		}
+		if(totalCorrectAnswers==0){
+			throw new NoCorrectAnswerException(question);
 		}
 		question.setAnswers(answers);
 		
