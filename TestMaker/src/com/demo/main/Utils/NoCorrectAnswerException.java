@@ -15,7 +15,7 @@ public class NoCorrectAnswerException extends InstantiationException{
 	/**
 	 * Creates the error message containing the question text.
 	 */
-	public NoCorrectAnswerException(Question q){
-		super("The question needs at least one correct answer: \""+q.getQuestion()+"\"");
+	public<T extends Question> NoCorrectAnswerException(T q){
+		super("The question needs at least one correct answer: \""+q.getQuestionText()+"\"");
 	}
 }

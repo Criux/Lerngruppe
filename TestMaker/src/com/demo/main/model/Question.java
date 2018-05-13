@@ -3,34 +3,35 @@ package com.demo.main.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.demo.main.Utils.NoCorrectAnswerException;
+
 public class Question {
 
-	String question;
-	String secondaryText;
+	String questionText;
 	List<Answer> answers;
+	String hint;
 	
 	//Setters and Getters
-	public String getQuestion() {
-		return question;
+	public String getQuestionText() {
+		return questionText;
 	}
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
 	}
 	public List<Answer> getAnswers() {
 		return answers;
 	}
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
-	}
-	public String getSecondaryText() {
-		return secondaryText;
-	}
-	public void setSecondaryText(String secondaryText) {
-		this.secondaryText = secondaryText;
+	public void setAnswers(List<Answer> answers) throws NoCorrectAnswerException {
+		if(answers!=null&&answers.size()>0){
+			this.answers = answers;
+		}else{
+			this.answers=new ArrayList<Answer>();
+		}
+		
 	}
 	@Override
 	public String toString() {
-		String result = "Question=" + question + " - ";
+		String result = "Question=" + questionText + " - ";
 		for(Answer answer:findCorrectAnswers()){
 			result+=answer.toString();
 		}
@@ -40,7 +41,7 @@ public class Question {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((question == null) ? 0 : question.hashCode());
+		result = prime * result + ((questionText == null) ? 0 : questionText.hashCode());
 		return result;
 	}
 	@Override
@@ -52,14 +53,14 @@ public class Question {
 		if (getClass() != obj.getClass())
 			return false;
 		Question other = (Question) obj;
-		if (question == null) {
-			if (other.question != null)
+		if (questionText == null) {
+			if (other.questionText != null)
 				return false;
-		} else if (!question.equals(other.question))
+		} else if (!questionText.equals(other.questionText))
 			return false;
 		return true;
 	}
-	private List<Answer> findCorrectAnswers(){
+	protected List<Answer> findCorrectAnswers(){
 		List<Answer> correct= new ArrayList<Answer>();
 		for(Answer answer:answers){
 			if(answer.isCorrect){

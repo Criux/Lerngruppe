@@ -26,7 +26,6 @@ public class Answer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (isCorrect ? 1231 : 1237);
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -39,8 +38,6 @@ public class Answer {
 		if (getClass() != obj.getClass())
 			return false;
 		Answer other = (Answer) obj;
-		if (isCorrect != other.isCorrect)
-			return false;
 		if (text == null) {
 			if (other.text != null)
 				return false;
@@ -48,6 +45,7 @@ public class Answer {
 			return false;
 		return true;
 	}
+	
 	
 	
 }

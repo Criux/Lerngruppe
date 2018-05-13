@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.demo.main.model.Answer;
+import com.demo.main.model.MultipleChoice;
 import com.demo.main.model.Question;
 
 public class ExcelReader {
@@ -56,14 +57,14 @@ public class ExcelReader {
 		return cell.getCellStyle().getFont().getBold();
 		
 	}
-	public Question createQuestion(XSSFRow row) throws NoCorrectAnswerException{
-		Question question= new Question();
+	public MultipleChoice createQuestion(XSSFRow row) throws NoCorrectAnswerException{
+		MultipleChoice question= new MultipleChoice();
 		List<Answer> answers = new ArrayList<Answer>();
 		for(int i=0;i<row.getLastCellNum();i++){
 			XSSFCell cell=row.getCell(i);
 			String data=cell.getStringCellValue();
 			if(i==0){
-				question.setQuestion(data);
+				question.setQuestionText(data);
 			}
 			else{
 				Answer answer=new Answer();
