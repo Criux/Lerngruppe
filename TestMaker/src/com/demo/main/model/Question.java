@@ -3,6 +3,7 @@ package com.demo.main.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.demo.main.Utils.NoAnswersException;
 import com.demo.main.Utils.NoCorrectAnswerException;
 
 public class Question {
@@ -16,16 +17,17 @@ public class Question {
 		return questionText;
 	}
 	public void setQuestionText(String questionText) {
+		if(questionText!=null&&!questionText.isEmpty())
 		this.questionText = questionText;
 	}
 	public List<Answer> getAnswers() {
 		return answers;
 	}
-	public void setAnswers(List<Answer> answers) throws NoCorrectAnswerException {
+	public void setAnswers(List<Answer> answers) throws NoCorrectAnswerException, NoAnswersException {
 		if(answers!=null&&answers.size()>0){
 			this.answers = answers;
 		}else{
-			this.answers=new ArrayList<Answer>();
+			throw new NoAnswersException(this);
 		}
 		
 	}

@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -62,17 +63,29 @@ public class ExcelReader {
 		int startAt=hasFileTitleLine()?1:0;
 		for(int i=startAt;i<totalRows;i++){
 			XSSFRow row=sheet.getRow(i);
-			questions.add(createQuestion(row));		
+			MultipleChoice q= createQuestion(row);
+			if(q!=null){
+				questions.add(q);
+			}
+					
 		}
-		
+		System.out.println("found total questions:"+questions.size());
 		return questions;
 	}
 	private MultipleChoice createQuestion(XSSFRow row) {
 		MultipleChoice question= new MultipleChoice();
-		List<Answer> answers = new ArrayList<Answer>();
+		List<Answer> answers = new ArrayList<Answer>();	
 		for(int i=0;i<row.getLastCellNum();i++){
 			XSSFCell cell=row.getCell(i);
-			String data=cell.getStringCellValue();
+			String data=null;
+			//System.out.println("Cell in "+row.getRowNum()+","+i);
+			if(cell!=null){
+				if(cell.getCellTypeEnum().equals(CellType.STRING)){
+					data=cell.getStringCellValue().trim();
+				}else if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
+					data=String.valueOf(cell.getNumericCellValue()).trim();
+				}
+			}
 			if(i==0){
 				question.setQuestionText(data);
 			}
@@ -80,17 +93,26 @@ public class ExcelReader {
 				Answer answer=new Answer();
 				answer.setText(data);
 				answer.setCorrect(isCellBold(cell));
-				
-				answers.add(answer);
+				if(answer.getText()!=null){
+					answers.add(answer);
+				}
 			}
 		}
 		try {
+			System.out.println("Answers: "+answers);
 			question.setAnswers(answers);
 		} catch (NoCorrectAnswerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.err.println("The question in row "+row.getRowNum()+" does not have any correct answers. It will not be added to the questions' list.");
+			return null;
+		} catch (NoAnswersException e) {
+			//e.printStackTrace();
+			System.err.println("The question in row "+row.getRowNum()+" does not have any answers. It will not be added to the questions' list.");
+			return null;
 		}
-		
+		if(question.getQuestionText()==null){
+			return null;
+		}
 		return question;
 		
 	}

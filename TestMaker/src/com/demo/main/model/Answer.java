@@ -10,6 +10,7 @@ public class Answer {
 		return text;
 	}
 	public void setText(String text) {
+		if(text!=null&&!text.isEmpty())
 		this.text = text;
 	}
 	public boolean isCorrect() {

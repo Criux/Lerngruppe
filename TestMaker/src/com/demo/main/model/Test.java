@@ -41,7 +41,7 @@ public class Test{
 		Scanner in= new Scanner(System.in);
 		while(test.answeredQuestions<test.totalQuestions){
 			MultipleChoice q= test.nextQuestion();
-			System.out.println(q.questionText);
+			System.out.println(q.questionText+q.getSecondaryText());
 			System.out.println("");
 			for(int i=0;i<q.answers.size();i++){
 				System.out.println((i+1)+":"+q.answers.get(i).getText());

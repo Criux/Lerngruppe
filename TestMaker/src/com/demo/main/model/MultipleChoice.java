@@ -2,6 +2,7 @@ package com.demo.main.model;
 
 import java.util.List;
 
+import com.demo.main.Utils.NoAnswersException;
 import com.demo.main.Utils.NoCorrectAnswerException;
 
 public class MultipleChoice extends Question{
@@ -9,7 +10,7 @@ public class MultipleChoice extends Question{
 	String secondaryText;
 	
 	@Override
-	public void setAnswers(List<Answer> answers) throws NoCorrectAnswerException{
+	public void setAnswers(List<Answer> answers) throws NoCorrectAnswerException, NoAnswersException{
 		super.setAnswers(answers);
 		if(this.answers.size()!=0){
 			int totalCorrectAnswers=0;
@@ -25,6 +26,8 @@ public class MultipleChoice extends Question{
 			}else{
 				secondaryText="";
 			}
+		}else{
+			this.answers=null;
 		}
 	}
 	public String getSecondaryText() {
