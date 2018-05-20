@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="735.0" maxWidth="351.0" prefHeight="735.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.test.TestCreateController">
+<AnchorPane maxHeight="735.0" maxWidth="351.0" prefHeight="735.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.view.TestCreateController">
    <children>
       <ScrollPane maxHeight="738.0" prefHeight="738.0" prefWidth="351.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -16,91 +16,12 @@
                   <TextArea fx:id="textareaIntro" editable="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="327.0" style="-fx-border-style: none; -fx-background-color: transparent;" text="Bitte wähle die Kapitel aus, zu denen du Fragen &#10;beantworten möchtest." />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="561.0" prefWidth="120.0" spacing="15.0">
+                        <VBox fx:id="selectionContainer" prefHeight="561.0" prefWidth="120.0" spacing="15.0">
                            <children>
-                              <CheckBox fx:id="checkbox1" mnemonicParsing="false" text="Kapitel 1">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox2" mnemonicParsing="false" text="Kapitel 2">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox3" mnemonicParsing="false" text="Kapitel 3">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox4" mnemonicParsing="false" text="Kapitel 4">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox5" mnemonicParsing="false" text="Kapitel 5">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox6" mnemonicParsing="false" text="Kapitel 6">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox7" mnemonicParsing="false" text="Kapitel 7">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox8" mnemonicParsing="false" text="Kapitel 8">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox9" mnemonicParsing="false" text="Kapitel 9">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox10" mnemonicParsing="false" text="Kapitel 10">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox11" mnemonicParsing="false" text="Kapitel 11">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox12" mnemonicParsing="false" text="Kapitel 12">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox13" mnemonicParsing="false" text="Kapitel 13">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox14" mnemonicParsing="false" text="Kapitel 14">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox15" mnemonicParsing="false" text="Kapitel 15">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="checkbox16" mnemonicParsing="false" text="Kapitel 16">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </CheckBox>
+                              
                            </children>
                         </VBox>
-                        <Button fx:id="buttonAll" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#handleAllButtonAction" text="alle auswählen">
+                        <Button fx:id="buttonAll" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#handleAllButtonAction" text="Tests laden">
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
