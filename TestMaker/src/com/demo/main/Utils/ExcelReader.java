@@ -28,9 +28,12 @@ import com.demo.main.model.Question;
 public class ExcelReader {
 	XSSFWorkbook wb;
 	XSSFSheet sheet;
+	int questionCol=0;
+	List<Integer> answerCols=new ArrayList<Integer>();
 
 	public ExcelReader() throws IOException{
-		this("D:\\testQ.xlsx");
+		this(System.getProperty("user.dir")+"\\Tests\\chapter1.xlsx");
+		//this("D:\\testQ.xlsx");
         
 	}
 	public ExcelReader(String path) throws IOException{
@@ -43,14 +46,6 @@ public class ExcelReader {
 			e.printStackTrace();
 		}
 	}
-	public void test(){
-		int totalRows=sheet.getLastRowNum()+1;
-		int startAt=hasFileTitleLine()?1:0;
-		for(int i=startAt;i<totalRows;i++){
-			XSSFRow row=sheet.getRow(i);
-			System.out.println(createQuestion(row));		
-		}
-	}
 	private boolean isCellBold(XSSFCell cell){
 		
 		return cell.getCellStyle().getFont().getBold();
@@ -61,9 +56,11 @@ public class ExcelReader {
 		
 		int totalRows=sheet.getLastRowNum()+1;
 		int startAt=hasFileTitleLine()?1:0;
+		this.getColNums();
 		for(int i=startAt;i<totalRows;i++){
 			XSSFRow row=sheet.getRow(i);
-			MultipleChoice q= createQuestion(row);
+			System.out.println("Question is at:"+questionCol+" and last answer at:"+answerCols.get(answerCols.size()-1));
+			MultipleChoice q= createQuestion(row,this.questionCol,this.answerCols);
 			if(q!=null){
 				questions.add(q);
 			}
@@ -72,10 +69,14 @@ public class ExcelReader {
 		System.out.println("found total questions:"+questions.size());
 		return questions;
 	}
-	private MultipleChoice createQuestion(XSSFRow row) {
+	private MultipleChoice createQuestion(XSSFRow row, int qCol, List<Integer>aCols) {
 		MultipleChoice question= new MultipleChoice();
-		List<Answer> answers = new ArrayList<Answer>();	
-		for(int i=0;i<row.getLastCellNum();i++){
+		List<Answer> answers = new ArrayList<Answer>();
+		int lastAnswerPos=row.getLastCellNum();
+		if(aCols.size()>1){
+			lastAnswerPos=aCols.get(aCols.size()-1);
+		}
+		for(int i=qCol;i<lastAnswerPos;i++){
 			XSSFCell cell=row.getCell(i);
 			String data=null;
 			//System.out.println("Cell in "+row.getRowNum()+","+i);
@@ -85,18 +86,19 @@ public class ExcelReader {
 				}else if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
 					data=String.valueOf(cell.getNumericCellValue()).trim();
 				}
-			}
-			if(i==0){
-				question.setQuestionText(data);
-			}
-			else{
-				Answer answer=new Answer();
-				answer.setText(data);
-				answer.setCorrect(isCellBold(cell));
-				if(answer.getText()!=null){
-					answers.add(answer);
+				if(i==qCol){
+					question.setQuestionText(data);
+				}
+				else{
+					Answer answer=new Answer();
+					answer.setText(data);
+					answer.setCorrect(isCellBold(cell));
+					if(answer.getText()!=null){
+						answers.add(answer);
+					}
 				}
 			}
+			
 		}
 		try {
 			System.out.println("Answers: "+answers);
@@ -120,10 +122,24 @@ public class ExcelReader {
 		//to be implemented
 		return true;
 	}
+	private void getColNums(){
+		
+		XSSFRow row=sheet.getRow(sheet.getFirstRowNum());
+		for(Cell cell:row){
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				if(cell.getStringCellValue().toLowerCase().contains("quest")||cell.getStringCellValue().toLowerCase().contains("frage")||cell.getStringCellValue().toLowerCase().contains("aufga")){
+					this.questionCol=cell.getColumnIndex();
+				}else if(cell.getStringCellValue().toLowerCase().contains("answer")||cell.getStringCellValue().toLowerCase().contains("option")||cell.getStringCellValue().toLowerCase().contains("antwo")){
+					this.answerCols.add(cell.getColumnIndex());
+				}
+					
+			}
+		}
+	}
 	public static void main(String[] args) {
 		try {
 			ExcelReader r=new ExcelReader();
-			r.test();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
