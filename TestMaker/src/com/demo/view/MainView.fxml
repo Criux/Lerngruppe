@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar fx:id="menubar" VBox.vgrow="ALWAYS">
+              <menus>
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="Datei">
+                  <items>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem fx:id="menuFileClose" mnemonicParsing="false" onAction="#exitProgram" text="Beenden" />
+                  </items>
+                </Menu>
+                <Menu fx:id="menueTest" mnemonicParsing="false" text="Test">
+                  <items>
+                        <MenuItem disable="true" mnemonicParsing="false" text="Datei hinzufügen" />
+                    <MenuItem fx:id="menuTestCreate" mnemonicParsing="false" onAction="#openWindowCreateTest" text="Test erstellen" />
+                        <MenuItem fx:id="menuTestStatistic" mnemonicParsing="false" text="Statistik" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label fx:id="labelErfolg" alignment="CENTER" text="Viel Erfolg">
+                     <font>
+                        <Font name="Segoe UI Light" size="56.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelLernen" text="beim Lernen">
+                     <font>
+                        <Font name="Segoe UI Light" size="56.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="-50.0" top="130.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="150.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fx:id="imgWelcome" fitHeight="413.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets top="-50.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
