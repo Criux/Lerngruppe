@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.demo.main.controller.ScreenManager;
 import com.demo.main.controller.TestManager;
 import com.demo.main.model.Question;
 import com.demo.main.model.QuestionSelectionMode;
@@ -212,6 +213,12 @@ public class TestCreateController {
     		total="0";
     	}
     	TestManager.getInstance().createCurrentTest(fileList, Integer.parseInt(total), QuestionSelectionMode.BALANCED);
+    	
+			((MainController) ScreenManager.getInstance().mainLoader.getController()).hideStartScreen();
+		
+    	ScreenManager.getInstance().mainStage.hide();
+    	ScreenManager.getInstance().mainStage.show();
+    	this.closeWindow();
     }
 
     @FXML public void handleAllButtonAction (ActionEvent event) {

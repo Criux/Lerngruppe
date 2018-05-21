@@ -30,7 +30,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <HBox alignment="CENTER">
+            <HBox fx:id="welcomeMessage" alignment="CENTER">
                <children>
                   <Label fx:id="labelErfolg" alignment="CENTER" text="Viel Erfolg">
                      <font>

@@ -32,6 +32,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -49,10 +50,13 @@ public class MainController {
 
     @FXML
     private Menu menuFile;
-
+    
     @FXML
     private MenuItem menuFileClose;
-
+    
+    @FXML
+    private HBox welcomeMessage;
+    
     @FXML
     private Label labelErfolg;
 
@@ -69,6 +73,8 @@ public class MainController {
     private MenuItem menuTestStatistic;
 
     public static Stage stageTestCreate;
+    
+    public static Stage stageTestView;
 
     public static Parent root1;
 
@@ -101,7 +107,11 @@ public class MainController {
     	}
 
     }
-
+    @FXML public void hideStartScreen(){
+    	welcomeMessage.setVisible(false);
+    	welcomeMessage.setManaged(false);
+    	((VBox)welcomeMessage.getParent()).getChildren().remove(welcomeMessage);
+    }
     public static Stage getStageTestCreate() {
     	return stageTestCreate;
     }

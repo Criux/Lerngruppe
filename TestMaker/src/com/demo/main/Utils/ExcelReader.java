@@ -71,8 +71,7 @@ public class ExcelReader {
 			MultipleChoice q= createQuestion(row,this.questionCol,this.answerCols);
 			if(q!=null){
 				questions.add(q);
-			}
-					
+			}		
 		}
 		System.out.println("found total questions:"+questions.size());
 		return questions;
