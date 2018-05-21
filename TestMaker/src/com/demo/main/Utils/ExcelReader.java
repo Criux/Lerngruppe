@@ -5,8 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -31,17 +33,23 @@ public class ExcelReader {
 	int questionCol=0;
 	List<Integer> answerCols=new ArrayList<Integer>();
 
-	public ExcelReader() throws IOException{
+	public ExcelReader(){
 		this(System.getProperty("user.dir")+"\\Tests\\chapter1.xlsx");
 		//this("D:\\testQ.xlsx");
         
 	}
-	public ExcelReader(String path) throws IOException{
-		InputStream inp = new FileInputStream(path);
+	public ExcelReader(String path){
+		InputStream inp=null;
+		try {
+			inp = new FileInputStream(path);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			wb = new XSSFWorkbook(inp);
 			sheet = wb.getSheetAt(0);
-		} catch (EncryptedDocumentException e) {
+		} catch (EncryptedDocumentException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -59,7 +67,7 @@ public class ExcelReader {
 		this.getColNums();
 		for(int i=startAt;i<totalRows;i++){
 			XSSFRow row=sheet.getRow(i);
-			System.out.println("Question is at:"+questionCol+" and last answer at:"+answerCols.get(answerCols.size()-1));
+			//System.out.println("Question is at:"+questionCol+" and last answer at:"+answerCols.get(answerCols.size()-1));
 			MultipleChoice q= createQuestion(row,this.questionCol,this.answerCols);
 			if(q!=null){
 				questions.add(q);
@@ -68,6 +76,28 @@ public class ExcelReader {
 		}
 		System.out.println("found total questions:"+questions.size());
 		return questions;
+	}
+	//can create infinite loops when the file has empty rows **Use with Caution**
+	public List<MultipleChoice> getRandomQuestions(int total){
+		int totalRows=sheet.getLastRowNum()+1;
+		List<MultipleChoice>result=null;
+		if(total>=totalRows){
+			return this.getQuestions();
+		}else{
+			result=new ArrayList<MultipleChoice>();
+			Random random= new Random();
+			while(total>0){
+				MultipleChoice q=this.createQuestion(sheet.getRow(random.nextInt(totalRows-1)+1), this.questionCol, this.answerCols);
+				if(q!=null){
+					if(!result.contains(q)){
+						result.add(q);
+						total--;
+					}
+				}
+				
+			}
+			return result;
+		}
 	}
 	private MultipleChoice createQuestion(XSSFRow row, int qCol, List<Integer>aCols) {
 		MultipleChoice question= new MultipleChoice();
@@ -101,7 +131,7 @@ public class ExcelReader {
 			
 		}
 		try {
-			System.out.println("Answers: "+answers);
+			//System.out.println("Answers: "+answers);
 			question.setAnswers(answers);
 		} catch (NoCorrectAnswerException e) {
 			//e.printStackTrace();
@@ -137,13 +167,15 @@ public class ExcelReader {
 		}
 	}
 	public static void main(String[] args) {
-		try {
-			ExcelReader r=new ExcelReader();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			ExcelReader r=new ExcelReader();
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		int total=20;
+		int parts=20;
 		
 	}
 }

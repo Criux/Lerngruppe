@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.demo.main.controller.TestManager;
 import com.demo.main.model.Question;
+import com.demo.main.model.QuestionSelectionMode;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +52,11 @@ public class TestCreateController {
 	    @FXML
 	    private TextField txtfNumber;
 
-	    @FXML
+	    public TextField getTxtfNumber() {
+			return txtfNumber;
+		}
+
+		@FXML
 	    private Label labelNumber;
 
 //	    @FXML
@@ -188,12 +195,27 @@ public class TestCreateController {
     	
     	//readExcelFillCatalog();
     	//chooseRandomQuestion(questionCatalogData);
-    	System.out.println("Selecting "+txtfNumber.getText()+" random questions from the following tests:");
-    	selectionContainer.getChildrenUnmodifiable().forEach(c->{if(((CheckBox)c).isSelected()){System.out.println(((CheckBox)c).getText());}});
+    	List<CheckBox> checkBoxList=new ArrayList<CheckBox>();
+    	selectionContainer.getChildrenUnmodifiable().forEach(c->{if(((CheckBox)c).isSelected()){checkBoxList.add(((CheckBox)c));}});
+    	
+    	List<File> fileList=new ArrayList<File>();
+    	File folder=new File(testPath);
+    	for(File test:folder.listFiles()){
+    		for(CheckBox cb:checkBoxList){
+        		if(test.getName().contains(cb.getText()+".xls")){
+        			fileList.add(test);
+        		}
+        	}
+    	}
+    	String total=txtfNumber.getText().trim();
+    	if(total.isEmpty()){
+    		total="0";
+    	}
+    	TestManager.getInstance().createCurrentTest(fileList, Integer.parseInt(total), QuestionSelectionMode.BALANCED);
     }
 
     @FXML public void handleAllButtonAction (ActionEvent event) {
-    	new MainController().getTests(testPath, selectionContainer);
+    	TestManager.getInstance().getTestsFromFiles(testPath, selectionContainer);
     }
 
     private void selectAllCheckboxes() {

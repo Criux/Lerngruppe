@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -28,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -70,6 +73,7 @@ public class MainController {
     public static Parent root1;
 
     FXMLLoader loader;
+    Scene scene;
     public void openWindowCreateTest() {
 
     	try {
@@ -77,10 +81,12 @@ public class MainController {
     		Parent root1 = (Parent) loader.load();
     		//getTests(System.getProperty("user.dir")+"\\Tests");
     		stageTestCreate = new Stage();
-    		stageTestCreate.setScene(new Scene(root1));
+    		scene=new Scene(root1);
+    		stageTestCreate.setScene(scene);
     		stageTestCreate.setResizable(false);
     		stageTestCreate.setTitle("Test erstellen");
     		stageTestCreate.initModality(Modality.APPLICATION_MODAL);
+    		forceNumeric();
     		stageTestCreate.showAndWait();
     		
     		
@@ -115,41 +121,16 @@ public class MainController {
     public static Parent getRoot1() {
     	return root1;
     }
-    public void getTests(String testPath) throws IOException {
-    	VBox container=((TestCreateController)loader.getController()).getSelectionContainer();
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(testPath))) {
-            for (Path path : directoryStream) {
-                String fileName=path.toFile().getName();
-                if(fileName.contains(".xlsx")){
-        			CheckBox box= new CheckBox();
-            		box.setText(fileName.split("\\.")[0]);
-            		container.getChildren().add(box);
-            		
-        		}
-            }
-        } catch (IOException ex) {}
+    public void forceNumeric(){
+    	TextField textField=((TestCreateController)loader.getController()).getTxtfNumber();
+    	textField.textProperty().addListener(new ChangeListener<String>() {
+    	    @Override
+    	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+    	        String newValue) {
+    	        if (!newValue.matches("\\d*")) {
+    	            textField.setText(newValue.replaceAll("[^\\d]", ""));
+    	        }
+    	    }
+    	});
     }
-    public<T extends Pane> void getTests(String testPath, T container){
-    	container.getChildren().removeAll(container.getChildren());
-    	File[] list=Paths.get(testPath).toFile().listFiles();
-    	Arrays.sort(
- 			   list,
- 			   new Comparator<File>() {
- 			     public int compare(File a, File b) {
- 			    	 if(a.getName().length()<b.getName().length()){
- 			    		 return -1; 
- 			    	 }
- 			       return a.getName().compareTo(b.getName());
- 			     }
- 			   });
-            for (File file : list) {
-                String fileName=file.getName();
-                if(fileName.contains(".xlsx")){
-        			CheckBox box= new CheckBox();
-            		box.setText(fileName.split("\\.")[0]);
-            			container.getChildren().add(box);
-        		}
-            }
-    }
-
 }

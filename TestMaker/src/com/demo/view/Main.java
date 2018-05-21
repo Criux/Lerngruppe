@@ -17,7 +17,7 @@ public class Main extends Application {
 			System.out.println(getClass().getResource("test.css"));
 			Scene scene = new Scene(root,800,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("icon.png")));
+			primaryStage.getIcons().add(new Image(com.demo.view.Main.class.getResourceAsStream("icon.png")));
 			primaryStage.setScene(scene);
 			//primaryStage.setMaximized(true);
 			primaryStage.show();
