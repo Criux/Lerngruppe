@@ -1,18 +1,31 @@
 package com.demo.main.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.demo.main.model.fx.Screen;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+@SuppressWarnings("rawtypes")
 public class ScreenManager {
 
 	private static ScreenManager instance;
 	
 	private ScreenManager(){
-		
+		Screen testCreate = new Screen("TestCreateView.fxml");
+		testCreate.getStage().setResizable(false);
+		testCreate.getStage().initModality(Modality.APPLICATION_MODAL);
+
+		managedScreens.add(new Screen("TestView.fxml",800,600));
+		managedScreens.add(new Screen("MainView.fxml",800,600));
+		managedScreens.add(testCreate);
 	}
 	public static ScreenManager getInstance(){
         if(instance == null){
@@ -20,24 +33,20 @@ public class ScreenManager {
         }
         return instance;
     }
-	
-	public Stage mainStage;
-	public FXMLLoader mainLoader;
-	
-	public void initMain(Stage primaryStage,Class c){
-		this.mainStage=primaryStage;
-		try {
-			mainLoader=new FXMLLoader(c.getResource("MainView.fxml"));
-			Parent root = (Parent)mainLoader.load();
-			System.out.println(getClass().getResource("test.css"));
-			Scene scene = new Scene(root,800,600);
-			scene.getStylesheets().add(c.getResource("application.css").toExternalForm());
-			primaryStage.getIcons().add(new Image(c.getResourceAsStream("icon.png")));
-			primaryStage.setScene(scene);
-			//primaryStage.setMaximized(true);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
+	List<Screen> managedScreens = new ArrayList<>();
+	public Screen getScreen(String name){
+		for(Screen s:managedScreens){
+			if(s.getName().equals(name)){
+				return s;				
+			}
 		}
+		return null;
+	}
+	public static <T> T findController(String viewName) {
+	    FXMLLoader loader = new FXMLLoader(com.demo.view.Main.class.getResource(viewName));
+	    return (T) loader.getController();
+	}
+	public List<Screen> getManagedScreens() {
+		return managedScreens;
 	}
 }

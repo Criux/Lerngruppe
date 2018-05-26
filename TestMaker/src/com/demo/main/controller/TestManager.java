@@ -15,7 +15,6 @@ import com.demo.main.Utils.ExcelReader;
 import com.demo.main.model.MultipleChoice;
 import com.demo.main.model.QuestionSelectionMode;
 import com.demo.main.model.Test;
-import com.demo.view.TestCreateController;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -125,4 +124,8 @@ public class TestManager {
 		}
 		return result;
 	}
+	public Test getCurrentTest() {
+		return currentTest;
+	}
+	
 }

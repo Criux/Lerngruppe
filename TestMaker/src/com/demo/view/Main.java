@@ -1,31 +1,28 @@
 package com.demo.view;
 
 import com.demo.main.controller.ScreenManager;
+import com.demo.main.controller.TestController;
+import com.demo.main.model.fx.Screen;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.fxml.FXMLLoader;
+
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-//		try {
-//			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainView.fxml"));
-//			System.out.println(getClass().getResource("test.css"));
-//			Scene scene = new Scene(root,800,600);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//			primaryStage.getIcons().add(new Image(com.demo.view.Main.class.getResourceAsStream("icon.png")));
-//			primaryStage.setScene(scene);
-//			//primaryStage.setMaximized(true);
-//			primaryStage.show();
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
-		ScreenManager.getInstance().initMain(primaryStage,Main.class);
+		//Hauptfenster finden
+		Screen main=ScreenManager.getInstance().getScreen("MainView");
+		//Eigene Einstellungen
+		main.getScene().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		primaryStage.getIcons().add(new Image(com.demo.view.Main.class.getResourceAsStream("icon.png")));
+		//primaryStage.setMaximized(true);
+		
+		//Den Stage setzen und das Fenster zeigen	
+		main.setStage(primaryStage);
+		main.show();
 	}
 
 	public static void main(String[] args) {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="735.0" maxWidth="351.0" prefHeight="735.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.view.TestCreateController">
+<AnchorPane maxHeight="735.0" maxWidth="351.0" prefHeight="735.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestCreateController">
    <children>
       <ScrollPane maxHeight="738.0" prefHeight="738.0" prefWidth="351.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -46,7 +46,7 @@
                      <children>
                         <Button fx:id="buttonTestCreate" mnemonicParsing="false" onAction="#handleTestButtonAction" text="Test erstellen" />
                         <Button fx:id="buttonClear" alignment="BOTTOM_RIGHT" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clear" text="leeren" />
-                        <Button fx:id="buttonClose" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#closeWindow" text="SchlieÃŸen" />
+                        <Button fx:id="buttonClose" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectAllCheckboxes" text="alle auswählen" />
                      </children>
                      <VBox.margin>
                         <Insets left="10.0" top="20.0" />

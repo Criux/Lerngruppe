@@ -1,4 +1,4 @@
-package com.demo.view;
+package com.demo.main.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +15,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import com.demo.main.model.Test;
+import com.demo.main.model.fx.Screen;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,6 +36,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -39,9 +45,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainController {
+public class MainController{
 
-
+	@FXML
+	private VBox container;
 	@FXML
     private MenuBar menubar;
 
@@ -72,32 +79,20 @@ public class MainController {
     @FXML
     private MenuItem menuTestStatistic;
 
-    public static Stage stageTestCreate;
+    //public static Stage stageTestCreate;
     
-    public static Stage stageTestView;
+   // public static Stage stageTestView;
 
-    public static Parent root1;
+    //public static Parent root1;
 
-    FXMLLoader loader;
-    Scene scene;
+    //FXMLLoader loader;
+    //Scene scene;    
     public void openWindowCreateTest() {
 
-    	try {
-    		loader = new FXMLLoader(TestCreateController.class.getResource("TestCreateView.fxml"));
-    		Parent root1 = (Parent) loader.load();
-    		//getTests(System.getProperty("user.dir")+"\\Tests");
-    		stageTestCreate = new Stage();
-    		scene=new Scene(root1);
-    		stageTestCreate.setScene(scene);
-    		stageTestCreate.setResizable(false);
-    		stageTestCreate.setTitle("Test erstellen");
-    		stageTestCreate.initModality(Modality.APPLICATION_MODAL);
-    		forceNumeric();
-    		stageTestCreate.showAndWait();
-    		
-    		
-    		
+    	try {    		
+    		ScreenManager.getInstance().getScreen("TestCreateView").show();    		
     	} catch(Exception e) {
+    		e.printStackTrace();
     		System.out.println("FXMLLoader: " + e.getMessage());
     		Alert a = new Alert(AlertType.ERROR);
     		a.setTitle("Error");
@@ -107,13 +102,25 @@ public class MainController {
     	}
 
     }
-    @FXML public void hideStartScreen(){
-    	welcomeMessage.setVisible(false);
-    	welcomeMessage.setManaged(false);
-    	((VBox)welcomeMessage.getParent()).getChildren().remove(welcomeMessage);
-    }
-    public static Stage getStageTestCreate() {
-    	return stageTestCreate;
+    public void showTestScreen(){
+    	//welcomeMessage.setVisible(false);
+    	//welcomeMessage.setManaged(false);
+    	
+    	container.getChildren().remove(welcomeMessage); //Viel Erfolg beim Lernen entfernen
+    	container.getChildren().remove(container.getChildrenUnmodifiable().size()-1); //margin-bottom entfernen
+    	
+    	//Test-Objekt erstellen
+    	Test currentTest = TestManager.getInstance().getCurrentTest();
+    	
+    	//Neue Elemente kreieren und sie ins Fenster hinzufügen
+    	HBox textContainer=new HBox();
+    	textContainer.setPrefHeight(400);
+    	textContainer.setAlignment(Pos.CENTER);
+    	Label label=new Label();
+    	label.setText("Der Test wurde erstellt. Gesamtanzahl: "+currentTest.getTotalQuestions());
+    	textContainer.getChildren().add(label);
+
+    	container.getChildren().add(textContainer);
     }
 
     public void exitProgram() {
@@ -127,20 +134,5 @@ public class MainController {
 			System.exit(0);
 		}
     }
-
-    public static Parent getRoot1() {
-    	return root1;
-    }
-    public void forceNumeric(){
-    	TextField textField=((TestCreateController)loader.getController()).getTxtfNumber();
-    	textField.textProperty().addListener(new ChangeListener<String>() {
-    	    @Override
-    	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-    	        String newValue) {
-    	        if (!newValue.matches("\\d*")) {
-    	            textField.setText(newValue.replaceAll("[^\\d]", ""));
-    	        }
-    	    }
-    	});
-    }
+    
 }
