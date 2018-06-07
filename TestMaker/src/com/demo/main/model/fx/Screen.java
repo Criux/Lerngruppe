@@ -37,7 +37,6 @@ public class Screen {
 				this.stage=stage;
 			}
 			this.stage.setScene(scene);
-			System.out.println(controller);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

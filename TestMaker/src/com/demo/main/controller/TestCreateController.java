@@ -188,7 +188,6 @@ public class TestCreateController {
     	TestManager.getInstance().createCurrentTest(fileList, Integer.parseInt(total), QuestionSelectionMode.BALANCED);
 		Screen main=ScreenManager.getInstance().getScreen("MainView");
 		((MainController)main.getController()).showTestScreen();
-		
     	main.hideAndSwitch();
 
     }
