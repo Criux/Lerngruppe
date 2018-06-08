@@ -11,12 +11,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -69,7 +71,7 @@ public class TestController{
     			HBox answerContainer=new HBox();
     			answerContainer.setUserData(answer);
     			//answerContainer.setMinHeight(20);
-    			VBox.setMargin(answerContainer, new Insets(0,0,0,0));
+    			VBox.setMargin(answerContainer, new Insets(0,0,10,0));
     			if(answer.isCorrect()){
     				System.out.println("Correct is: "+answer.getText());
     			}
@@ -85,6 +87,7 @@ public class TestController{
     	}else{
     		int totalQuestions=TestManager.getInstance().getCurrentTest().getTotalQuestions();
     		questionText.setText("Test completed. Result:"+(totalQuestions-totalWrongAnswers)+"/"+totalQuestions);
+    		questionText.setAlignment(Pos.CENTER);
     		for(Node node:questionContainer.getChildren()){
         		if(node.getClass().equals(Separator.class)){
         			node.setVisible(false);
@@ -92,6 +95,10 @@ public class TestController{
         		}
     		totalWrongAnswers=0;
     		hideProgressTracker();
+    		if(actionContainer.getChildren().size()==1){
+    			actionContainer.getChildren().remove(0);
+    			
+    		}
     		}
     	}
     	updateProgressTracker();
@@ -102,9 +109,10 @@ public class TestController{
 		button.setAlignment(Pos.CENTER_RIGHT);
 		button.setContentDisplay(ContentDisplay.TOP);
 		button.setMnemonicParsing(false);
-		button.setStyle("-fx-background-color: rgba(0,0,0,0); -fx-border-color: #52b1cf; -fx-border-radius: 2; -fx-border-width: 2;");
-		button.setTextFill(Color.valueOf("#52b1cf"));
+		button.setStyle("-fx-background-color: rgba(0,0,0,0); -fx-border-color: #00dcb3; -fx-border-radius: 2; -fx-border-width: 2;");
+		button.setTextFill(Color.valueOf("#00dcb3"));
 		button.setFont(Font.font("Bell MT Bold",FontWeight.NORMAL,18));
+		button.setCursor(Cursor.HAND);
 		HBox.setMargin(button, new Insets(0,80,0,0));
 		
 		button.setOnAction(new EventHandler<ActionEvent>() {
@@ -113,6 +121,11 @@ public class TestController{
     	    	showCorrectAnswers();
     	    	
     	    	//showQuestion();    	    	
+    	    }
+    	});
+		button.setOnMousePressed(new EventHandler<MouseEvent>() {
+    	    @Override public void handle(MouseEvent e) {
+    	    	button.setCursor(Cursor.CLOSED_HAND);   	    	
     	    }
     	});
 		
@@ -124,9 +137,10 @@ public class TestController{
 		button.setAlignment(Pos.CENTER_RIGHT);
 		button.setContentDisplay(ContentDisplay.TOP);
 		button.setMnemonicParsing(false);
-		button.setStyle("-fx-background-color: rgba(0,0,0,0); -fx-border-color: #00dcb3; -fx-border-radius: 2; -fx-border-width: 2;");
-		button.setTextFill(Color.valueOf("#00dcb3"));
+		button.setStyle("-fx-background-color: rgba(0,0,0,0); -fx-border-color: #52b1cf; -fx-border-radius: 2; -fx-border-width: 2;");
+		button.setTextFill(Color.valueOf("#52b1cf"));
 		button.setFont(Font.font("Bell MT Bold",FontWeight.NORMAL,18));
+		button.setCursor(Cursor.HAND);
 		HBox.setMargin(button, new Insets(0,80,0,0));
 		
 		button.setOnAction(new EventHandler<ActionEvent>() {
@@ -137,7 +151,11 @@ public class TestController{
     	    	showQuestion();    	    	
     	    }
     	});
-		
+		button.setOnMousePressed(new EventHandler<MouseEvent>() {
+    	    @Override public void handle(MouseEvent e) {
+    	    	button.setCursor(Cursor.CLOSED_HAND);   	    	
+    	    }
+    	});
 		this.actionContainer.getChildren().add(button);
 	}
 	private void checkAnswers(){
