@@ -23,8 +23,8 @@ public class ScreenManager {
 		testCreate.getStage().setResizable(false);
 		testCreate.getStage().initModality(Modality.APPLICATION_MODAL);
 
-		managedScreens.add(new Screen("TestView.fxml",800,600));
-		managedScreens.add(new Screen("MainView.fxml",800,600));
+		managedScreens.add(new Screen("TestView.fxml",1200,720));
+		managedScreens.add(new Screen("MainView.fxml",1200,720));
 		managedScreens.add(testCreate);
 	}
 	public static ScreenManager getInstance(){
@@ -42,6 +42,7 @@ public class ScreenManager {
 		}
 		return null;
 	}
+	//broken - Do not use 08.06.18 - KMA
 	public static <T> T findController(String viewName) {
 	    FXMLLoader loader = new FXMLLoader(com.demo.view.Main.class.getResource(viewName));
 	    return (T) loader.getController();

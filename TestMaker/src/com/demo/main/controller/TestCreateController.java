@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
@@ -168,7 +169,7 @@ public class TestCreateController {
     	txtfNumber.clear();
     }
 
-    public void handleTestButtonAction(ActionEvent event) {
+    public void handleTestButtonAction(ActionEvent event) throws InterruptedException {
     	List<CheckBox> checkBoxList=new ArrayList<CheckBox>();
     	selectionContainer.getChildrenUnmodifiable().forEach(c->{if(((CheckBox)c).isSelected()){checkBoxList.add(((CheckBox)c));}});
     	
@@ -187,9 +188,10 @@ public class TestCreateController {
     	}
     	TestManager.getInstance().createCurrentTest(fileList, Integer.parseInt(total), QuestionSelectionMode.BALANCED);
 		Screen main=ScreenManager.getInstance().getScreen("MainView");
-		((MainController)main.getController()).showTestScreen();
-    	main.hideAndSwitch();
-
+		//((MainController)main.getController()).showTestScreen();
+    	main.getStage().setScene(ScreenManager.getInstance().getScreen("TestView").getScene());
+    	((TestController)ScreenManager.getInstance().getScreen("TestView").getController()).startTest();
+    	main.hideAndSwitch(); 
     }
 
     @FXML public void handleAllButtonAction (ActionEvent event) {

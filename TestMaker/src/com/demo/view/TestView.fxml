@@ -1,68 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="565.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" style="-fx-background-color: #4c5056;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestController">
    <children>
-      <VBox prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      
+      <HBox fx:id="infoContainer" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="1200.0" />
+      <VBox fx:id="questionContainer" alignment="TOP_CENTER" layoutY="100.0" prefHeight="300.0" prefWidth="1200.0">
          <children>
-            <MenuBar fx:id="menubar" VBox.vgrow="ALWAYS">
-              <menus>
-                <Menu fx:id="menuFile" mnemonicParsing="false" text="Datei">
-                  <items>
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem fx:id="menuFileClose" mnemonicParsing="false" text="Beenden" />
-                  </items>
-                </Menu>
-                <Menu fx:id="menueTest" mnemonicParsing="false" text="Test">
-                  <items>
-                        <MenuItem disable="true" mnemonicParsing="false" text="Datei hinzufügen" />
-                    <MenuItem fx:id="menuTestCreate" disable="true" mnemonicParsing="false" text="Test erstellen" />
-                        <MenuItem fx:id="menuTestStatistic" mnemonicParsing="false" text="Statistik" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <VBox fx:id="content" prefHeight="631.0" prefWidth="800.0" spacing="20.0" stylesheets="@test.css">
+            <HBox fx:id="questionTextContainer" prefHeight="225.0" prefWidth="200.0">
                <children>
-                  <TextArea visible="false" fx:id="textQuestion" editable="false" prefHeight="150.0" text="Frage&#10;zweite Zeile" wrapText="true">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </TextArea>
-                  <CheckBox fx:id="answer1" ellipsisString="" mnemonicParsing="false" text="Antwort 1" />
-                  <CheckBox fx:id="answer11" ellipsisString="" mnemonicParsing="false" text="Antwort 2" />
-                  <CheckBox fx:id="answer12" ellipsisString="" mnemonicParsing="false" text="Antwort 3" />
-                  <CheckBox fx:id="answer13" ellipsisString="" mnemonicParsing="false" text="Antwort 4" />
-                  <CheckBox fx:id="answer14" ellipsisString="" mnemonicParsing="false" text="Antwort 5" />
-                  <CheckBox fx:id="answer15" ellipsisString="" mnemonicParsing="false" text="Antwort 6" />
-                  <HBox alignment="BASELINE_RIGHT" prefWidth="200.0">
-                     <children>
-                        <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" text="weiter">
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <HBox alignment="BASELINE_CENTER" prefWidth="200.0">
-                     <children>
-                        <ProgressBar prefWidth="150.0" progress="0.0" />
-                     </children>
-                  </HBox>
+                  <Label fx:id="questionText" alignment="BOTTOM_LEFT" prefHeight="225.0" prefWidth="1000.0" text="Question Text Label" textAlignment="JUSTIFY" textFill="#52b1cf" textOverrun="WORD_ELLIPSIS" wrapText="true" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="Bell MT Bold" size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="100.0" right="100.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
+            </HBox>
+            <Separator maxHeight="1.0" minHeight="1.0" prefHeight="1.0" prefWidth="200.0" style="-fx-opacity: 0.7;">
                <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets left="80.0" right="80.0" top="5.0" />
+               </VBox.margin>
+            </Separator>
+            <VBox fx:id="answersContainer" prefHeight="225.0" prefWidth="1200.0" >
+            	<VBox.margin>
+                  <Insets left="60.0" right="80.0" top="15.0" />
                </VBox.margin>
             </VBox>
-         </children>
-      </VBox>
+         </children></VBox>
+      <HBox fx:id="actionContainer" alignment="CENTER_RIGHT" layoutY="550.0" prefHeight="100.0" prefWidth="1200.0" />
    </children>
 </AnchorPane>
