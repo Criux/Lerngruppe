@@ -26,8 +26,8 @@ import javafx.scene.text.FontWeight;
 
 public class TestController{
 
-	@FXML
-	private HBox headerContainer;
+//	@FXML
+//	private HBox headerContainer;
 	
 	@FXML
 	private HBox infoContainer;
@@ -50,15 +50,18 @@ public class TestController{
 	private MultipleChoice currentQ;
 	private Test currentTest;
 	int totalWrongAnswers=0;
+	int currentQuestionNum=0;
 	
 	public void startTest(){
 		currentTest = TestManager.getInstance().getCurrentTest();
+		createProgressTracker();
 		showQuestion();
 	}
 	public void showQuestion(){
 		clearAnswers();
     	//questionContainer.getChildren().forEach(c->System.out.println(c));
     	currentQ=currentTest.nextQuestion();
+    	currentQuestionNum++;
     	if(currentQ!=null){
     		questionText.setText(currentQ.getQuestionText()+currentQ.getSecondaryText());
     		
@@ -70,7 +73,7 @@ public class TestController{
     			if(answer.isCorrect()){
     				System.out.println("Correct is: "+answer.getText());
     			}
-    			answerContainer.setMinHeight(15);
+    			answerContainer.setMinHeight(25);
     			CheckBox cb= new CheckBox();
     			cb.setFont(Font.font("Calibri",FontWeight.NORMAL,cb.getFont().getSize()+8));
     			cb.setTextFill(Color.GHOSTWHITE);
@@ -88,9 +91,10 @@ public class TestController{
         			node.setManaged(false);
         		}
     		totalWrongAnswers=0;
+    		hideProgressTracker();
     		}
     	}
-    	//createConfirmButton();
+    	updateProgressTracker();
     }
 	private void createConfirmButton(){
 		Button button =new Button();
@@ -187,5 +191,24 @@ public class TestController{
 		}
 		createConfirmButton();
 		
+	}
+	private void createProgressTracker(){
+		Label progressLabel= new Label();
+		progressLabel.setText("Progress Tracker");
+		
+		progressLabel.setTextFill(Color.GHOSTWHITE);
+		progressLabel.setFont(Font.font("Calibri",FontWeight.NORMAL,22));
+		HBox.setMargin(progressLabel, new Insets(20,0,0,0));
+		infoContainer.getChildren().add(progressLabel);
+	}
+	private void updateProgressTracker(){
+		Label pLabel=(Label)infoContainer.getChildren().get(0);
+		pLabel.setText("Aufgabe: "+currentQuestionNum+"/"+currentTest.getTotalQuestions());
+		
+	}
+	private void hideProgressTracker(){
+		Label pLabel=(Label)infoContainer.getChildren().get(0);
+		pLabel.setVisible(false);
+		pLabel.setManaged(false);
 	}
 }
