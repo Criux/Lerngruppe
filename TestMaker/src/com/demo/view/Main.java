@@ -18,6 +18,7 @@ public class Main extends Application {
 		//Eigene Einstellungen
 		main.getScene().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.getIcons().add(new Image(com.demo.view.Main.class.getResourceAsStream("icon.png")));
+		primaryStage.setTitle("Linux Tests - IFA7C");
 		//primaryStage.setMaximized(true);
 		
 		//Den Stage setzen und das Fenster zeigen	

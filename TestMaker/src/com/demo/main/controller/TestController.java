@@ -65,7 +65,7 @@ public class TestController{
     	currentQ=currentTest.nextQuestion();
     	currentQuestionNum++;
     	if(currentQ!=null){
-    		questionText.setText(currentQ.getQuestionText()+currentQ.getSecondaryText());
+    		questionText.setText(currentQ.getQuestionText()+" "+currentQ.getSecondaryText());
     		
     		for(Answer answer:currentQ.getAnswers()){
     			HBox answerContainer=new HBox();
@@ -86,7 +86,7 @@ public class TestController{
     		}
     	}else{
     		int totalQuestions=TestManager.getInstance().getCurrentTest().getTotalQuestions();
-    		questionText.setText("Test completed. Result:"+(totalQuestions-totalWrongAnswers)+"/"+totalQuestions);
+    		questionText.setText("Test abgeschlossen. Ergebnis: "+(totalQuestions-totalWrongAnswers)+"/"+totalQuestions);
     		questionText.setAlignment(Pos.CENTER);
     		for(Node node:questionContainer.getChildren()){
         		if(node.getClass().equals(Separator.class)){
