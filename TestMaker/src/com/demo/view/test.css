@@ -1,15 +1,148 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
-.text-area .scroll-bar:vertical:disabled {
-    -fx-opacity: 0;
+
+/*
+ * This is an adjustment of the original modena.css for a consistent dark theme.
+ * Original modena.css here: https://gist.github.com/maxd/63691840fc372f22f470.
+ */
+
+/* Redefine base colors */
+.root {
+    -fx-base: rgb(76, 80, 86);
+    -fx-background: rgb(76, 80, 86);
+
+    /* make controls (buttons, thumb, etc.) slightly lighter */
+    -fx-color: derive(-fx-base, 50%);
+
+    /* text fields and table rows background */
+    -fx-control-inner-background: rgb(94,99,106);
+    /* version of -fx-control-inner-background for alternative rows */
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background, 2.5%);
+
+    /* text colors depending on background's brightness */
+    -fx-light-text-color: rgb(220, 220, 220);
+    -fx-mid-text-color: rgb(100, 100, 100);
+    -fx-dark-text-color: rgb(20, 20, 20);
+
+    /* A bright blue for highlighting/accenting objects.  For example: selected
+     * text; selected items in menus, lists, trees, and tables; progress bars */
+    -fx-accent: rgb(82,177,207);
+
+    /* color of non-focused yet selected elements */
+    -fx-selection-bar-non-focused: rgb(50, 50, 50);
 }
 
-.text-area {
-      -fx-background-color: none;
-      -fx-border-width:none;
+/* Fix derived prompt color for text fields */
+.text-input {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, +50%);
 }
 
-.text-area .content{
-      -fx-background-color: none;
-  }
+/* Keep prompt invisible when focused (above color fix overrides it) */
+.text-input:focused {
+    -fx-prompt-text-fill: transparent;
+}
 
+/* Fix scroll bar buttons arrows colors */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, rgb(220, 220, 220);
+}
+
+.scroll-bar > .increment-button:hover > .increment-arrow,
+.scroll-bar > .decrement-button:hover > .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, rgb(240, 240, 240);
+}
+
+.scroll-bar > .increment-button:pressed > .increment-arrow,
+.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, rgb(255, 255, 255);
+}
+
+.label {
+	-fx-text-fill: white;
+}
+
+.test-label {
+	-fx-text-fill: #52b1cf;
+}
+
+
+/*************** Buttons ************************************/
+.button {
+	-fx-background-color: rgba(0,0,0,0);
+	-fx-border-color: #52b1cf;
+	-fx-border-radius: 2;
+	-fx-border-width: 2;
+	-fx-text-fill: #52b1cf;
+}
+
+.button:hover {
+	-fx-background-color: #5f5f5f;
+	-fx-border-color: #52b1cf;
+	-fx-border-radius: 2;
+	-fx-border-width: 2;
+	-fx-text-fill: #52b1cf;
+}
+
+#test-btn-weiter {
+	-fx-background-color: rgba(0,0,0,0);
+	-fx-border-color: #00dcb3;
+	-fx-border-radius: 2;
+	-fx-border-width: 2;
+	-fx-text-fill: #00dcb3;
+}
+
+#test-btn-weiter:hover {
+	-fx-background-color: #5f5f5f;
+	-fx-border-color: #00dcb3;
+	-fx-border-radius: 2;
+	-fx-border-width: 2;
+	-fx-text-fill: #00dcb3;
+}
+
+/*************************************************************/
+
+.separator *.line {
+	-fx-opacity: 0.8;
+	-fx-border-style: solid;
+	-fx-border-width: 1px;
+	-fx-background-color:  #838687;
+
+}
+/*************** PieChar ************************************/
+.chart {
+	-fx-clockwise: false;
+	-fx-pie-label-visible: true;
+	-fx-label-line-length: 2;
+	-fx-start-angle: 45;
+	-fx-legend-side: bottom;
+
+}
+
+.chart-pie-label {
+	-fx-font-size: 14px;
+	-fx-fill: white;
+	-fx-padding: 10px;
+}
+
+.char-pie-label-line {
+	-fx-stroke: #878f9a;
+	-fx-fill: #878f9a;
+
+}
+
+.default-color0.chart-pie {	-fx-pie-color: #4c6195; }
+.default-color1.chart-pie {	-fx-pie-color: #52b1cf; }
+.default-color2.chart-pie {	-fx-pie-color: #2386a7; }
+.default-color3.chart-pie {	-fx-pie-color: #66a1de; }
+.default-color4.chart-pie {	-fx-pie-color: #2c88b3; }
+.default-color5.chart-pie {	-fx-pie-color: #094472; }
+
+.chart-legend {
+	-fx-background-color: #656a72;
+	-fx-border-color: #000;
+	-fx-border-width:1;
+	-fx-stroke: #878f9a;
+}
+
+/************************************************************* */

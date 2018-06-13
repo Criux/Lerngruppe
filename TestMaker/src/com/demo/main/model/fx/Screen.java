@@ -37,6 +37,7 @@ public class Screen {
 				this.stage=stage;
 			}
 			this.stage.setScene(scene);
+			System.out.println(controller);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -105,9 +106,5 @@ public class Screen {
 	}
 	public static void main(String[] args) {
 		Screen s= new Screen("TestView.fxml",800,600);
-		
-		
-		
-		
 	}
 }

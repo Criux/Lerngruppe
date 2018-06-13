@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import com.demo.main.Utils.AlertMessage;
 import com.demo.main.model.Answer;
 import com.demo.main.model.MultipleChoice;
 import com.demo.main.model.Test;
@@ -52,6 +53,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -60,20 +62,24 @@ public class MainController{
 	@FXML
 	private VBox container;
 	@FXML
-    private MenuBar menubar;
+    public static MenuBar menubar;
+
+	public static MenuBar getMenuBar() {
+		return menubar;
+	}
 
     @FXML
     private MenuItem menuTestCreate;
 
     @FXML
     private Menu menuFile;
-    
+
     @FXML
     private MenuItem menuFileClose;
-    
+
     @FXML
     private HBox welcomeMessage;
-    
+
     @FXML
     private Label labelErfolg;
 
@@ -84,48 +90,39 @@ public class MainController{
     private ImageView imgWelcome;
 
     @FXML
-    private Menu menueTest;
+    public static Menu menueTest;
 
-    @FXML
+	@FXML
     private MenuItem menuTestStatistic;
 
-    //public static Stage stageTestCreate;
-    
-   // public static Stage stageTestView;
+	@FXML
+	private MenuItem chooseDir;
 
-    //public static Parent root1;
-
-    //FXMLLoader loader;
-    //Scene scene;    
-    
     MultipleChoice currentQ;
     VBox qContainer;
     int totalWrongAnswers=0;
     public void openWindowCreateTest() {
 
-    	try {    		
-    		ScreenManager.getInstance().getScreen("TestCreateView").show();    		
+    	try {
+    		menubar = new MenuBar();
+    		Screen testCreate = ScreenManager.getInstance().getScreen("TestCreateView");
+    		testCreate.getStage().setTitle("Test erstellen");
+    		testCreate.show();
     	} catch(Exception e) {
     		e.printStackTrace();
     		System.out.println("FXMLLoader: " + e.getMessage());
-    		Alert a = new Alert(AlertType.ERROR);
-    		a.setTitle("Error");
-    		a.setHeaderText("Es ist ein Fehler aufgetreten:");
-    		a.setContentText("Das Fenster konnte nicht geladen werden.");
-    		a.showAndWait();
+    		new AlertMessage(AlertType.ERROR, "Error", "Es ist ein Fehler aufgetreten:", "Das Fenster konnte nicht geladen werden.");
     	}
 
     }
     public void exitProgram() {
-    	Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setTitle("Achtung");
-		a.setHeaderText("Soll das Programm wirklich geschlossen werden?");
-		a.setContentText("Es gehen ggf. ungespeicherte Daten verloren.");
+    	AlertMessage a = new AlertMessage(AlertType.CONFIRMATION, "Achtung", "Soll das Programm wirklich geschlossen werden?", "Es gehen ggf. ungespeicherte Daten verloren.");
 		Optional<ButtonType> result = a.showAndWait();
 
 		if(result.get() == ButtonType.OK) {
 			System.exit(0);
 		}
     }
-    
+
+
 }

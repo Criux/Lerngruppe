@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -8,35 +14,49 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" style="-fx-background-color: #4c5056;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #4c5056;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestController">
    <children>
-      
-      <HBox fx:id="infoContainer" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="1200.0" />
-      <VBox fx:id="questionContainer" alignment="TOP_CENTER" layoutY="100.0" prefHeight="300.0" prefWidth="1200.0">
+      <VBox fx:id="container" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox fx:id="questionTextContainer" prefHeight="225.0" prefWidth="200.0">
+            
+                  <HBox fx:id="infoContainer" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="1200.0" />
+            <VBox fx:id="questionContainer" alignment="TOP_CENTER" prefHeight="300.0" prefWidth="1200.0">
                <children>
-                  <Label fx:id="questionText" alignment="BOTTOM_LEFT" prefHeight="225.0" prefWidth="1000.0" text="Question Text Label" textAlignment="JUSTIFY" textFill="#52b1cf" textOverrun="WORD_ELLIPSIS" wrapText="true" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font name="Bell MT Bold" size="26.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="100.0" right="100.0" />
-                     </HBox.margin>
-                  </Label>
+                  <HBox fx:id="questionTextContainer" prefHeight="225.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="questionText" alignment="BOTTOM_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="225.0" styleClass="test-label" text="Question Text Label" textFill="#52b1cf" textOverrun="WORD_ELLIPSIS" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Bell MT Bold" size="26.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="100.0" right="100.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Separator maxHeight="1.0" minHeight="1.0" prefHeight="1.0" prefWidth="200.0" style="-fx-opacity: 0.8; -fx-background-color: #838687;">
+                     <VBox.margin>
+                        <Insets left="80.0" right="80.0" top="5.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <VBox fx:id="answersContainer" prefHeight="225.0" prefWidth="1200.0" spacing="10.0">
+                  	<VBox.margin>
+                        <Insets left="60.0" right="80.0" top="15.0" />
+                     </VBox.margin>
+                  </VBox>
                </children>
-            </HBox>
-            <Separator maxHeight="1.0" minHeight="1.0" prefHeight="1.0" prefWidth="200.0" style="-fx-opacity: 0.7;">
-               <VBox.margin>
-                  <Insets left="80.0" right="80.0" top="5.0" />
-               </VBox.margin>
-            </Separator>
-            <VBox fx:id="answersContainer" prefHeight="225.0" prefWidth="1200.0" >
-            	<VBox.margin>
-                  <Insets left="60.0" right="80.0" top="15.0" />
-               </VBox.margin>
             </VBox>
-         </children></VBox>
-      <HBox fx:id="actionContainer" alignment="CENTER_RIGHT" layoutY="550.0" prefHeight="100.0" prefWidth="1200.0" />
+            <HBox fx:id="actionContainer" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="1200.0" />
+            <HBox fx:id="barContainer" alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="461.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
    </children>
+   <stylesheets>
+      <URL value="@../../../../../../TestMaker/src/com/demo/view/test.css" />
+      <URL value="@test.css" />
+   </stylesheets>
 </AnchorPane>

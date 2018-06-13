@@ -1,26 +1,14 @@
 package com.demo.main.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.demo.main.model.Question;
+import com.demo.main.Utils.AlertMessage;
+import com.demo.main.Utils.ExcelReader;
 import com.demo.main.model.QuestionSelectionMode;
 import com.demo.main.model.fx.Screen;
 
@@ -29,188 +17,211 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 public class TestCreateController {
-	String testPath=System.getProperty("user.dir")+"\\Tests";
-	FXMLLoader loader;
-	Parent root;
-	Scene scene;
-//	@FXML
-//	    private CheckBox checkbox11;
-//
-//	    @FXML
-//	    private CheckBox checkbox10;
+    //String testPath=System.getProperty("user.dir")+"\\Tests";
+    FXMLLoader loader;
+    Parent root;
+    Scene scene;
 
-	    @FXML
-	    private TextField txtfNumber;
+    String testPath;
 
-	    public TextField getTxtfNumber() {
-			return txtfNumber;
-		}
+        @FXML
+        private TextField txtfNumber;
 
-		@FXML
-	    private Label labelNumber;
+        public TextField getTxtfNumber() {
+            return txtfNumber;
+        }
 
-//	    @FXML
-//	    private CheckBox checkbox15;
-//
-//	    @FXML
-//	    private CheckBox checkbox14;
+        @FXML
+        private Label labelNumber;
 
-	    @FXML
-	    private Button buttonTestCreate;
+        @FXML
+        private Button buttonTestCreate;
 
-//	    @FXML
-//	    private CheckBox checkbox1;
-//
-//	    @FXML
-//	    private CheckBox checkbox13;
+        @FXML
+        private Label lblIntro;
+        @FXML
+        private Button buttonClear;
 
-//	    @FXML
-//	    private CheckBox checkbox2;
+        @FXML
+        private Button buttonClose;
 
-//	    @FXML
-//	    private CheckBox checkbox12;
+        @FXML
+        private Button buttonAll;
 
-	    @FXML
-	    private TextArea textareaIntro;
+        @FXML
+        private VBox selectionContainer;
 
-//	    @FXML
-//	    private CheckBox checkbox16;
+        @FXML
+        private Label lblMax;
 
-	    @FXML
-	    private Button buttonClear;
+        @FXML
+        private HBox containerChoose;
 
-	    @FXML
-	    private Button buttonClose;
+        @FXML
+        private Button btnChoose;
 
-	    @FXML
-	    private Button buttonAll;
-	    
-	    @FXML
-	    private VBox selectionContainer;
+        @FXML
+        private VBox containerTests;
 
-//	    @FXML
-//	    private CheckBox checkbox3;
-//
-//	    @FXML
-//	    private CheckBox checkbox4;
-//
-//	    @FXML
-//	    private CheckBox checkbox5;
-//
-//	    @FXML
-//	    private CheckBox checkbox6;
-//
-//	    @FXML
-//	    private CheckBox checkbox7;
-//
-//	    @FXML
-//	    private CheckBox checkbox8;
-//
-//	    @FXML
-//	    private CheckBox checkbox9;
+        public VBox getSelectionContainer() {
+            return selectionContainer;
+        }
 
-	    public VBox getSelectionContainer() {
-			return selectionContainer;
-		}
+        public void setSelectionContainer(VBox selectionContainer) {
+            this.selectionContainer = selectionContainer;
+        }
 
-		public void setSelectionContainer(VBox selectionContainer) {
-			this.selectionContainer = selectionContainer;
-		}
-
-		public TestCreateController(){
+        public TestCreateController(){
 //	    	loader=new FXMLLoader(getClass().getResource("TestCreateView.fxml"));
 //	    	root=loader.load();
 //	    	scene=root.getScene();
 //	    	System.out.println(scene.lookup("#selectionContainer"));
-	    	//getCheckboxesArray();
-	    }
-   // private HashSet<Question> questionCatalogData;		// enthält alle Fragen aus den ausgewählten Kapiteln
+            //getCheckboxesArray();
+        }
 
-   // public static ArrayList<Question> questionCatalog;				// enthält eine begrenzte Anzahl an zufällig ausgewählten Fragen
-    														// der ausgewählten Kapitel
 
     public int qNumber;
     @FXML
     public void initialize() {
-    	//screen=screenManager.getScreen("TestCreateView");
-    	forceNumeric();
+        //screen=screenManager.getScreen("TestCreateView");
+        forceNumeric();
     }
+
+
 	private ArrayList<CheckBox> createCheckboxesArray() throws IOException {
-    	ArrayList<CheckBox> checkboxes = new ArrayList<CheckBox>();
-    	VBox container = getSelectionContainer();
-    	Path testFolder=Paths.get(testPath);
-    	for(File file:testFolder.toFile().listFiles()){
-    		CheckBox box= new CheckBox();
-    		box.setText(file.getName().split("\\.")[0]);
-    		container.getChildren().add(box);
-    	}
-    	System.out.println(container.getChildren());
-		return checkboxes;
+        ArrayList<CheckBox> checkboxes = new ArrayList<CheckBox>();
+        VBox container = getSelectionContainer();
+        Path testFolder=Paths.get(testPath);
+        for(File file:testFolder.toFile().listFiles()){
+            CheckBox box= new CheckBox();
+            box.setText(file.getName().split("\\.")[0]);
+            container.getChildren().add(box);
+        }
+        System.out.println(container.getChildren());
+        return checkboxes;
     }
-	
+
 
     public void clear(ActionEvent event) throws IOException {
-    	selectionContainer.getChildrenUnmodifiable().forEach(c->{((CheckBox)c).setSelected(false);});
-    	txtfNumber.clear();
+        selectionContainer.getChildrenUnmodifiable().forEach(c->{((CheckBox)c).setSelected(false);});
+        txtfNumber.clear();
     }
 
     public void handleTestButtonAction(ActionEvent event) throws InterruptedException {
-    	List<CheckBox> checkBoxList=new ArrayList<CheckBox>();
-    	selectionContainer.getChildrenUnmodifiable().forEach(c->{if(((CheckBox)c).isSelected()){checkBoxList.add(((CheckBox)c));}});
-    	
-    	List<File> fileList=new ArrayList<File>();
-    	File folder=new File(testPath);
-    	for(File test:folder.listFiles()){
-    		for(CheckBox cb:checkBoxList){
-        		if(test.getName().contains(cb.getText()+".xls")){
-        			fileList.add(test);
-        		}
-        	}
-    	}
-    	String total=txtfNumber.getText().trim();
-    	if(total.isEmpty()){
-    		total="0";
-    	}
-    	TestManager.getInstance().createCurrentTest(fileList, Integer.parseInt(total), QuestionSelectionMode.BALANCED);
-		Screen main=ScreenManager.getInstance().getScreen("MainView");
-		//((MainController)main.getController()).showTestScreen();
-    	main.getStage().setScene(ScreenManager.getInstance().getScreen("TestView").getScene());
-    	((TestController)ScreenManager.getInstance().getScreen("TestView").getController()).startTest();
-    	main.hideAndSwitch(); 
+        if(testPath == null) {
+        	AlertMessage a = new AlertMessage(AlertType.ERROR, "Error", "Es wurde kein Test erstellt:", "Bitte lade zuerst die entsprechenden Testdateien.");
+        	a.showAndWait();
+        } else {
+
+	    	List<CheckBox> checkBoxList=new ArrayList<CheckBox>();
+	        selectionContainer.getChildrenUnmodifiable().forEach(c->{if(((CheckBox)c).isSelected()){checkBoxList.add(((CheckBox)c));}});
+
+
+	        List<File> fileList=new ArrayList<File>();
+	        File folder=new File(testPath);
+	        for(File test:folder.listFiles()){
+	            for(CheckBox cb:checkBoxList){
+	                if(test.getName().contains(cb.getText()+".xls")){
+	                    fileList.add(test);
+	                }
+	            }
+	        }
+	        String total=txtfNumber.getText().trim();
+	        if(total.isEmpty()){
+	        	AlertMessage a = new AlertMessage(AlertType.CONFIRMATION, "Achtung", "Es wurde kein Test erstellt:", "Bitte wähle eine Gesamtanzahl an Fragen aus.");
+	        	a.showAndWait();
+	        }
+
+	        boolean minSelected = false;
+	        for(CheckBox cb:checkBoxList) {
+	            if(cb.isSelected()) {
+	            	minSelected = true;
+	            }
+	        }
+
+	        if (minSelected == true && (!total.isEmpty())) {
+		        TestManager.getInstance().createCurrentTest(fileList, Integer.parseInt(total), QuestionSelectionMode.BALANCED);
+		        Screen main=ScreenManager.getInstance().getScreen("MainView");
+		        //((MainController)main.getController()).showTestScreen();
+		        main.getStage().setScene(ScreenManager.getInstance().getScreen("TestView").getScene());
+		        ((TestController)ScreenManager.getInstance().getScreen("TestView").getController()).startTest();
+		        main.hideAndSwitch();
+	        } else if (minSelected == false) {
+	        	AlertMessage a = new AlertMessage(AlertType.CONFIRMATION, "Achtung", "Es konnte kein Test erstellt werden:", "Bitte wähle mindestens ein Kapitel aus, aus dem du Fragen beantworten möchtest.");
+	        	a.showAndWait();
+	        }
+        }
     }
 
     @FXML public void handleAllButtonAction (ActionEvent event) {
+    	loadStandardTests();
+    	containerTests.setVisible(true);
+    	lblIntro.setMinHeight(50f);
+    }
+    /**
+     * Lädt die Exceldateien aus dem Programmverzeichnis.
+     */
+    private void loadStandardTests() {
+    	lblIntro.setVisible(true);
+    	testPath=System.getProperty("user.dir")+"\\Tests";
     	TestManager.getInstance().getTestsFromFiles(testPath, selectionContainer);
     }
 
-    public void selectAllCheckboxes() {
-    	selectionContainer.getChildrenUnmodifiable().forEach(c->{((CheckBox)c).setSelected(true);});
+    /**
+     * Lädt die Exceldateien aus einem ausgewählten Ordner.
+     */
+    private void loadTests() {
+    	lblIntro.setVisible(true);
+    	TestManager.getInstance().getTestsFromFiles(testPath, selectionContainer);
+	}
+
+	public void selectAllCheckboxes() {
+        selectionContainer.getChildrenUnmodifiable().forEach(c->{((CheckBox)c).setSelected(true);});
     }
     private void forceNumeric(){
-    	txtfNumber.textProperty().addListener(new ChangeListener<String>() {
-    	    @Override
-    	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-    	        String newValue) {
-    	        if (!newValue.matches("\\d*")) {
-    	        	txtfNumber.setText(newValue.replaceAll("[^\\d]", ""));
-    	        }
-    	    }
-    	});
+        txtfNumber.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    txtfNumber.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+
+
+	public void openDirChooser(ActionEvent event) {
+    	DirectoryChooser dirC = new DirectoryChooser();
+    	File dirF = dirC.showDialog(null);
+    	if(dirF != null) {
+    		testPath = dirF.getPath();
+    		if(new File(testPath).isDirectory() && new File(testPath).list().length > 0) {
+        		loadTests();
+        		containerTests.setVisible(true);
+        		lblIntro.setMinHeight(50f);
+        	} else if(dirF.getPath() == null) {
+        		AlertMessage a = new AlertMessage(AlertType.ERROR, "Error", "Es konnten keine Dateien geladen werden:", "In dem Ordner existieren keine Dateien oder der ausgewählte Pfad enthält kein gültiges Verzeichnis.");
+        		a.showAndWait();
+        	}
+    	}
+
+
     }
 
 //	/**
@@ -245,7 +256,7 @@ public class TestCreateController {
 //		Integer valueI = (int) valueD;
 //		chapterQid.add(valueI);
 //		System.out.println("Es wurde hinzugefügt: " + valueI);
-//		
+//
 //		return chapterQid;
 //	}
 //
@@ -391,15 +402,15 @@ public class TestCreateController {
 //	}
 
 /*
-	private void handleKeyEvents() {
-		Parent root1 = MainController.getRoot1();
+    private void handleKeyEvents() {
+        Parent root1 = MainController.getRoot1();
 
-		root1.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-			if (event.getCode() == KeyCode.ENTER) {
-				readExcelFillCatalog();
-		    	chooseRandomQuestion(questionCatalogData);
-			}
-		});
-	}
-*/	 
+        root1.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                readExcelFillCatalog();
+                chooseRandomQuestion(questionCatalogData);
+            }
+        });
+    }
+*/
 }

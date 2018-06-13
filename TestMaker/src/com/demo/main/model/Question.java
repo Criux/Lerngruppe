@@ -11,7 +11,8 @@ public class Question {
 	String questionText;
 	List<Answer> answers;
 	String hint;
-	
+	int chapter;
+
 	//Setters and Getters
 	public String getQuestionText() {
 		return questionText;
@@ -29,7 +30,13 @@ public class Question {
 		}else{
 			throw new NoAnswersException(this);
 		}
-		
+
+	}
+	public int getChapter() {
+		return chapter;
+	}
+	public void setChapter(int chapter) {
+		this.chapter = chapter;
 	}
 	@Override
 	public String toString() {

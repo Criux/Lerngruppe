@@ -68,6 +68,9 @@ public class Test{
 	public int getTotalQuestions() {
 		return totalQuestions;
 	}
+	public int getAnsweredQuestions() {
+		return answeredQuestions;
+	}
 }
 
 // Test Änderung

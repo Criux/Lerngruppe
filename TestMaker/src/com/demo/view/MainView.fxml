@@ -23,9 +23,11 @@
                 </Menu>
                 <Menu fx:id="menueTest" mnemonicParsing="false" text="Test">
                   <items>
-                        <MenuItem disable="true" mnemonicParsing="false" text="Datei hinzufügen" />
-                    <MenuItem fx:id="menuTestCreate" mnemonicParsing="false" onAction="#openWindowCreateTest" text="Test erstellen" />
-                        <MenuItem fx:id="menuTestStatistic" mnemonicParsing="false" text="Statistik" />
+                    <MenuItem fx:id="menuTestCreate" mnemonicParsing="false" onAction="#openWindowCreateTest" text="eigenen Test erstellen" />
+                        <MenuItem fx:id="menuTestCreate11" disable="true" mnemonicParsing="false" onAction="#openWindowCreateTest" text="&quot;Midterm Exam&quot; erstellen (1-8)" />
+                        <MenuItem fx:id="menuTestCreate12" disable="true" mnemonicParsing="false" onAction="#openWindowCreateTest" text="&quot;Final Exam&quot; erstellen (9-16)" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuTestStatistic" disable="true" mnemonicParsing="false" text="Statistik" />
                   </items>
                 </Menu>
               </menus>
