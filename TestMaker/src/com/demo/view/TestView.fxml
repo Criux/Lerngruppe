@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -14,15 +9,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #4c5056;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #4c5056;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.main.controller.TestController">
    <children>
       <VBox fx:id="container" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             
-                  <HBox fx:id="infoContainer" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="1200.0" />
-            <VBox fx:id="questionContainer" alignment="TOP_CENTER" prefHeight="300.0" prefWidth="1200.0">
+                  <HBox fx:id="infoContainer" alignment="TOP_CENTER" prefHeight="50.0" prefWidth="1200.0" />
+            <VBox fx:id="questionContainer" alignment="TOP_CENTER" prefWidth="1200.0">
                <children>
-                  <HBox fx:id="questionTextContainer" prefHeight="225.0" prefWidth="200.0">
+                  <HBox fx:id="questionTextContainer" prefHeight="225.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label fx:id="questionText" alignment="BOTTOM_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="225.0" styleClass="test-label" text="Question Text Label" textFill="#52b1cf" textOverrun="WORD_ELLIPSIS" wrapText="true" HBox.hgrow="ALWAYS">
                            <font>
